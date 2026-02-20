@@ -3,417 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qora Yurak Afsonasi</title>
+    <title>Senga Atalgan Dil Izhori</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <style>
-        /* Umumiy sozlamalar */
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             padding: 0;
-            background-color: #050505;
-            color: #d1d1d1;
-            font-family: 'Times New Roman', serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Muqova stili - Har qanday ekranga moslashadi */
-        #muqova {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #1a0000 0%, #000 100%);
+            background-color: #0d0d0d; /* Qora rangning biroz yumshoqroq ottenka */
+            color: #e0e0e0; /* Oq rangning yumshoqroq ottenka */
+            font-family: 'Montserrat', sans-serif;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            z-index: 100;
-            transition: all 0.8s ease;
-            text-align: center;
-            padding: 20px;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto; /* Sher uzun bo'lsa scroll ishlashi uchun */
+            transition: background-color 1s ease;
         }
 
-        #muqova h1 {
-            font-size: clamp(2rem, 8vw, 4rem); /* Matn hajmi ekranga qarab o'zgaradi */
-            color: #ff0000;
-            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        #muqova p {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            color: #888;
-            letter-spacing: 2px;
-        }
-
-        .start-btn {
-            margin-top: 40px;
-            padding: 15px 50px;
-            background-color: #b30000;
+        /* Tugma dizayni */
+        #main-button {
+            background-color: #cc0000; /* To'q qizil rang */
             color: white;
             border: none;
-            font-size: 1.2rem;
+            padding: 25px 50px;
+            font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 50px;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(179, 0, 0, 0.4);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(204, 0, 0, 0.7); /* Qizil yorug'lik effekti */
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out, box-shadow 0.3s ease;
+            z-index: 10;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
         }
 
-        .start-btn:hover {
-            background-color: #ff0000;
-            transform: scale(1.1);
+        #main-button:hover {
+            box-shadow: 0 0 35px rgba(204, 0, 0, 0.9);
+            transform: scale(1.05);
         }
 
-        /* Kitob konteyneri - Moslashuvchanlik asosi */
-        #book-container {
-            display: none;
-            width: 95%;
-            max-width: 700px;
-            min-height: 80vh;
-            background-color: #111;
-            border: 1px solid #333;
+        /* Parchalanish effekti (yo'qolish) */
+        .shatter {
+            transform: scale(2.5); /* Kattaroq transformatsiya */
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Sher yoziladigan qism */
+        #poem-container {
+            display: none; /* Avvaliga yashirin */
+            text-align: center;
             padding: 30px;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            max-width: 700px;
+            width: 90%;
+            animation: fadeInScale 1.5s ease-in-out forwards;
+            background: rgba(10, 10, 10, 0.7); /* Fon rangini biroz ochiqroq qildim */
             border-radius: 15px;
-            margin: 20px auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
         }
 
-        .page {
-            display: none;
-            line-height: 1.6;
-            font-size: clamp(1rem, 3.5vw, 1.2rem);
-            text-align: justify;
-            animation: fadeIn 0.5s ease;
-            padding-bottom: 60px; /* Tugmalar uchun joy */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .poem-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 38px;
+            color: #ff4500; /* To'q to'q sariq (OrangeRed) */
+            margin-bottom: 25px;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
         }
 
-        .active {
-            display: block;
+        .poem-text {
+            font-family: 'Playfair Display', serif; /* Sher uchun klassik font */
+            font-size: 20px;
+            line-height: 1.8;
+            color: #f0f0f0; /* Matn rangini biroz oqroq qildim */
+            white-space: pre-line; /* Sher qatorlarini saqlaydi */
+            margin-bottom: 20px;
+            font-style: italic; /* Sherga yotiq yozuv stili */
         }
 
-        .page h3 {
-            color: #b30000;
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
+        .author-note {
+            font-size: 16px;
+            color: #aaaaaa;
+            margin-top: 30px;
         }
 
-        /* Navigatsiya tugmalari pastda mahkamlangan */
-        .controls {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            padding: 0 10px;
-        }
-
-        .nav-btn {
-            background-color: #222;
-            color: #fff;
-            border: 1px solid #444;
-            padding: 10px 25px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .nav-btn:hover:not(:disabled) {
-            background-color: #b30000;
-            border-color: #ff0000;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.2;
-            cursor: not-allowed;
-        }
-
-        #pageIndicator {
-            font-size: 0.9rem;
-            color: #666;
-            font-weight: bold;
-        }
-
-        /* Telefonlar uchun qo'shimcha moslashuv */
-        @media (max-width: 480px) {
-            #book-container {
-                padding: 20px;
-                min-height: 90vh;
+        /* Kichik ekranlar uchun moslashuvchanlik */
+        @media (max-width: 768px) {
+            #main-button {
+                padding: 20px 40px;
+                font-size: 24px;
             }
-            .nav-btn {
-                padding: 8px 15px;
+            .poem-title {
+                font-size: 30px;
+            }
+            .poem-text {
+                font-size: 18px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div id="muqova">
-        <h1>Qora Yurak Afsonasi</h1>
-        <p>Muallif: Muzaffar</p>
-        <button class="start-btn" onclick="startReading()">KIRISH</button>
-    </div>
+    <button id="main-button" onclick="showPoem()">SENGA ATALGAN</button>
 
-    <div id="book-container">
-        <div id="pages">
-            <div class="page active">
-                <h3>1-qsim qora yurak</h3>
-                <p>U qiz qora rangni yaxshi ko‘rardi.
-Faqat kiyimda emas… yuragida ham.
-Ismini hech kim bilmasdi. Aniqrog‘i, bilishardi, lekin u o‘zini hech kimga tanitmasdi. Go‘yoki ismi aytilsa, yuragi ham oshkor bo‘lib ketadigandek.
-Maktabda uni shunchaki “Qora yurak” deb chaqirishardi.
-U doim qora kiyimda yurardi. Qora daftar. Qora ruchka. Qora g‘ilof. Hatto sochlariga taqqan rezinkasi ham qora edi. Bir kuni sinfdoshlaridan biri so‘radi:
-— Nega doim qora rang?
-U sovuqqina jilmaydi.
-— Qora rang xiyonat qilmaydi.
-Bu gapdan keyin atrof jim bo‘lib qoldi.
-Lekin sinfda bir bola bor edi…
-U boshqalarga o‘xshamasdi.
-U qizning qora kiyimiga emas, ko‘zlaridagi og‘riqqa qarardi. U sovuq javoblar ortida yashirin mehr borligini his qilardi. Qiz kulmasa ham, u kulishini tasavvur qilardi.
-Bir kuni yomg‘ir yog‘ardi. Hamma yugurib ketdi. U esa yomg‘ir ostida qimirlamay turardi. Go‘yoki ichidagi og‘riqni osmon tushunadigandek.
-Shunda bola sekin yoniga keldi. Qo‘lida soyabon.
-— Shamollab qolasiz… — dedi past ovozda.
-Qiz unga qaradi. U nigohda savol ham bor edi, og‘riq ham.
-— Menga hech kim soyabon tutmagan, — dedi u.
-Bola esa shunchaki soyabonni uning ustida ushlab turdi. U o‘zi yomg‘irda qoldi.
-O‘sha payt qiz bir narsani his qildi…
-Qora yurak ichida nimadir sekin urishni boshladi.
-Lekin u hali ham ismini aytmadi.
-Chunki ism aytilsa, yurak ham ochiladi.
-Davomi bor… 🖤...</p>
-                
-            </div>
-            <div class="page">
-                <h3>2-qism:Yashirin ism</h3>
-                <p>Yomg‘irdan keyin hammasi o‘zgarmagandek edi.
-Lekin aslida hammasi o‘zgara boshlagandi.
-O‘sha kundan keyin bola har kuni unga salom berardi. Qiz esa qisqa javob qaytarardi. Oradagi masofa hali ham bor edi… lekin endi u sovuq emasdi.
-Bir kuni darsdan keyin sinf bo‘m-bo‘sh qoldi. Qiz deraza yonida turib, osmonga qarardi. Kuz edi. Barglar sarg‘aygan. Go‘yoki daraxtlar ham nimanidir yo‘qotgandek.
-Bola sekin yoniga bordi.
-— Siz doim kuchlidek ko‘rinasiz, — dedi u.
-Qiz jilmaydi. Bu safar sovuq emasdi.
-— Kuchli odamlar ko‘p yig‘lagan bo‘ladi.
-Bola bir zum jim qoldi.
-— Siz yig‘lagansizmi?
-Qiz ko‘zlarini osmonga qaratdi.
-— Bir marta ishonib ko‘rgandim… shunda o‘rgandim.
-Bu gapda shunchalik og‘irlik bor ediki, bola yuragida nimadir siqildi.
-— Hamma ham bir xil emas, — dedi u sekin.
-Qiz unga qaradi.
-— Buni isbotlay olasizmi?
-Bu savol oddiy emasdi. Bu sinov edi.
-Bola bir qadam yaqinlashdi.
-— Ismingizni ayting.
-Qiz jim qoldi.
-— Nega? — dedi u.
-— Chunki ismni bilsam, sizni yo‘qotishdan qo‘rqaman.
-Bu safar qizning ko‘zlari titradi. U birinchi marta qo‘rqdi. Chunki kimdir uni yo‘qotishdan qo‘rqayotganini aytayotgandi.
-U past ovozda dedi:
-— Agar ismimni bilsangiz… yuragimni ham bilib olasiz.
-Bola jilmaydi.
-— Menga qora yuragingiz ham yoqadi.
-Shu on qiz ichida bir devor darz ketdi.
-Lekin u hali ham ismini aytmadi.
-Chunki u hali ham ishonishni o‘rganayotgandi…
-Davomi bor… 🖤.</p>
-            </div>
-            <div class="page">
-                <h3>3-qism:sindirilgan ISHONCH</h3>
-                <p>Qiz o‘sha kuni birinchi marta qo‘rqdi.
-Chunki kimdir uning yuragiga yaqinlashayotgandi.
-Ertasi kuni u odatdagidan ham sovuqroq edi. Gapirmadi. Qarashmadi. Go‘yoki kechagi suhbat bo‘lmagandek.
-Bola esa tushundi — u qochyapti.
-Darsdan keyin u yana deraza yonida turardi. Qo‘llari titrayotgandi. Bu safar yomg‘ir yo‘q edi. Ammo ko‘zlarida namlik bor edi.
-— Nega mendan qochyapsiz? — dedi bola orqasidan.
-Qiz chuqur nafas oldi.
-— Chunki sen ham ketasan.
-— Qayerga?
-— Hamma ketadi.
-Bu gap oddiy emasdi. Bu og‘riq edi.
-Bir necha soniya sukut.
-— Oldin ham kimdir “ketmayman” degan, — dedi qiz past ovozda. — Keyin esa eng birinchi bo‘lib ketgan.
-Shu payt bola uning yelkalari qanday titrayotganini ko‘rdi. Qiz yig‘lamaslikka harakat qilardi. U kuchli ko‘rinishni o‘rgangan edi.
-— Men u emasman, — dedi bola qat’iy.
-Qiz boshini chayqadi.
-— Hamma boshida shunday deydi.
-Bola asta uning qarshisiga o‘tdi. Birinchi marta juda yaqin turdi.
-— Unda sinab ko‘ring.
-— Nima?
-— Menga ishonishni.
-Qiz ko‘zlarini yumdi. Ichida urush ketardi. Bir taraf “yana og‘riydi” derdi. Ikkinchi taraf esa “balki bu safar boshqacha” deb shivirlar edi.
-U asta dedi:
-— Agar yana sindirsang… men boshqa yig‘lamayman. Shunchaki muzlab qolaman.
-Bola yuragini ushlagandek bo‘ldi.
-— Unda men seni muzlatmayman.
-Shu payt qizning ko‘zidan bitta yosh tomdi.
-U tezda artdi.
-— Meni sevib qolma, — dedi u.
-Bola javob berdi:
-— Kech bo‘ldi.
-Qiz ilk bor jim qoldi.
-Chunki yuragi allaqachon tez ura boshlagandi.
-Lekin u hali ham ismini aytmadi…
-Chunki ism aytilsa, bu safar hammasi jiddiy bo‘lib ketardi.
-Davomi bor… 🖤.</p>
-            </div>
-            <div class="page">
-                <h3>4-qism: SINOV</h3>
-                <p>Oradan bir hafta o‘tdi.
-Qiz asta-sekin o‘zgara boshlagandi. Endi u faqat qora emas, ba’zan oq ko‘ylak ham kiyib kelardi. Sinfdoshlar hayron. Ammo eng ko‘p hayron bo‘lgan — o‘zi edi.
-Chunki u yana kutishni boshlagandi.
-Dars boshlanishidan oldin kimnidir.
-Tanaffusda kimnidir.
-Uyga ketayotganda ham kimnidir…
-Lekin bir kuni u kelmadi.
-Bola maktabga kelmadi.
-Birinchi kun — “Balki kasaldir”, dedi o‘ziga.
-Ikkinchi kun — yuragi bezovta bo‘la boshladi.
-Uchinchi kun — qo‘rquv qaytdi.
-“Ko‘rdingmi? Hamma ketadi…”
-U yana qora kiyimlarini kiyib oldi. Yuzidagi iliqlik yo‘qoldi.
-To‘rtinchi kuni u nihoyat keldi.
-Lekin yolg‘iz emas.
-Yonida boshqa qiz bor edi. U bilan kulib gaplashardi. Unga nimadir tushuntirardi. Qizning yuragi qattiq urdi.
-Ichidagi eski og‘riq uyg‘ondi.
-“Tugadi. Men yana adashdim…”
-U burilib ketmoqchi bo‘ldi. Shunda orqasidan ovoz eshitildi:
-— To‘xtang.
-U to‘xtadi. Orqasiga qaramadi.
-— Nega mendan qochyapsiz?
-Qiz asta dedi:
-— Endi navbatim keldi.
-— Nima?
-— Ketishga.
-Bola hayron qoldi.
-— Men ketmadim.
-Qiz achchiq jilmaydi.
-— Hamma ketishdan oldin shunday ko‘rinadi.
-Bola chuqur nafas oldi.
-— U mening singlim.
-Qiz qotib qoldi.
-— Nima?
-— Uch kun kasalxonada edim. Singlim operatsiya bo‘ldi. Shuning uchun kelolmadim.
-Qizning yuragi muzlab qoldi. U shunchaki jim turdi. So‘z topolmadi.
-— Sizdan yashirmoqchi emasdim. Faqat sizni bezovta qilgim kelmadi.
-Shu payt qiz o‘zini aybdor his qildi. U yana ishonmaslikni tanlagandi.
-Bola sekin dedi:
-— Meni sevib qolma degandingiz. Lekin o‘zingiz ham qo‘rqyapsiz.
-Qiz bir necha soniya jim turdi. So‘ng asta unga qaradi.
-Ko‘zlarida ilk bor qorong‘ulik emas… nur bor edi.
-— Men ketishni emas… qolishni o‘rganishni xohlayman.
-Bola jilmaydi.
-— Unda qoling.
-Qiz chuqur nafas oldi.
-— Agar qolsam… ismimni aytaman.
-Bola yuragi tez urdi.
-— Men tayyorman.
-Qiz lablarini qimirlatdi… lekin ovoz chiqmadi.
-Chunki ba’zi ismlar shunchaki aytilmaydi.
-Ular his qilinadi.
-Oxirgi qism yaqin… 🖤.</p>
-            </div>
-            <div class="page">
-                <h3>5-qism: KECH QOLGAN YURAK</h3>
-                <p>O‘sha kuni u ismni aytmoqchi edi.
-Lekin aytmadi.
-Oradan vaqt o‘tdi. Hammasi joyiga tushgandek ko‘rindi. Ular gaplashardi. Kulishardi. Qiz endi qora kiyimni kamroq kiyadigan bo‘ldi. Hamma sezdi — u o‘zgaryapti.
-Lekin bola bir narsani sezmay qoldi.
-Qizning yuragi isinishni o‘rganayotgan paytda… kimdir allaqachon uning yonida paydo bo‘lgandi.
-U yigit boshqacha edi. U dadil edi. U ochiq gapirardi. U qizning qo‘rquvlarini so‘zsiz tushunishga urinmas, balki aniq va ravshan “Men seni yaxshi ko‘raman” derdi.
-Bola esa hali ham ehtiyotkor edi. U hali ham sekin yaqinlashardi. U hali ham “vaqt kerak” deb o‘ylardi.
-Bir kuni qiz uni maktab hovlisida to‘xtatdi.
-Ko‘zlarida o‘sha eski qorong‘ulik yo‘q edi. Ammo boshqacha sokinlik bor edi.
-— Men senga bir narsa aytishim kerak, — dedi u.
-Bolaning yuragi tez ura boshladi.
-— Eshitaman.
-Qiz chuqur nafas oldi.
-— Sen meni muzlashdan qutqarding. Ishonishni o‘rgatding. Lekin…
-U jim qoldi.
-— Lekin men boshqasini sevib qoldim.
-Bu gap shunchaki aytilgan so‘z emasdi. Bu — zarba edi.
-Bola kulishga harakat qildi.
-— Hazillashyapsizmi?
-Qiz boshini chayqadi.
-— Yo‘q. Bu safar men qochmayapman. Shunchaki yuragim boshqacha urdi.
-Bir necha soniya sukunat.
-— Demak… men kech qolganman? — dedi bola past ovozda.
-Qizning ko‘zlari namlandi.
-— Yo‘q. Sen vaqtida kelding. Faqat men seni boshqacha sevgan ekanman.
-Bola shu payt tushundi — ba’zi odamlar bizni davolaydi, lekin bizniki bo‘lib qolmaydi.
-U asta dedi:
-— Ismingni aytmaganing yaxshi bo‘libdi.
-— Nega?
-— Chunki men seni ism bilan emas… yuraging bilan eslab qolaman.
-Qiz indamay ketdi.
-Bola esa birinchi marta yomg‘ir ostida yolg‘iz qoldi.
-Endi soyabon yo‘q edi.
-Lekin u bir narsani bildi:
-Qora yurak ham sevadi.
-Ba’zida esa… boshqasini tanlaydi.
-🖤.</p>
-            </div>
-        </div>
+    <div id="poem-container">
+        <h2 class="poem-title">Mening Dil Izhorim</h2>
+        <p class="poem-text">
+Menga qiziq emas sening hayoting,
+Boshinga dunyolar qulamaydimi.
+Qadrimni yer qilib tashlading atay,
+Vijdoning ozgina qiynalmaydimi?
 
-        <div class="controls">
-            <button id="prevBtn" class="nav-btn" onclick="changePage(-1)" disabled>Oldingi</button>
-            <span id="pageIndicator">1 / 5</span>
-            <button id="nextBtn" class="nav-btn" onclick="changePage(1)">Keyingi</button>
-        </div>
+Yo‘q senda vijdon nima ham qilsin,
+Sotib yuborgansan arzon baholab.
+O‘zgalar uchun sen qo‘g‘irchoq bo‘lib,
+Yuraver to abad o‘zingni horlab.
+
+Avvallari juda beg‘ubor eding,
+Sodda bo‘lganinga aldanibman-a.
+Pand berib boshqani ko‘nglin hushlasang,
+Hattoki men ahmoq anglamabman-a.
+
+Men seni, ishonasang, Xudoga soldim,
+Qiyomatda senga boqar ko‘zlarim.
+Qo‘llarim yoqangdan tutadi albat,
+Yodingdan chiqmasin so‘zlaganlarim.
+
+Har bir ozoringni ko‘ksimga yozib,
+Aytmadim tunlari zorlanganlarim...
+        </p>
+        <p class="author-note">— Muallif  Muzaffar</p>
     </div>
 
     <script>
-        let currentPage = 0;
-        const pages = document.querySelectorAll('.page');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const indicator = document.getElementById('pageIndicator');
+        function showPoem() {
+            const button = document.getElementById('main-button');
+            const poemContainer = document.getElementById('poem-container');
 
-        function startReading() {
-            const muqova = document.getElementById('muqova');
-            muqova.style.opacity = '0';
-            muqova.style.transform = 'scale(1.2)';
-            
+            button.classList.add('shatter'); // Tugmani yashirish effekti
+
             setTimeout(() => {
-                muqova.style.display = 'none';
-                document.getElementById('book-container').style.display = 'block';
-            }, 800);
-        }
-
-        function changePage(direction) {
-            pages[currentPage].classList.remove('active');
-            currentPage += direction;
-
-            if (currentPage < 0) currentPage = 0;
-            if (currentPage >= pages.length) currentPage = pages.length - 1;
-
-            pages[currentPage].classList.add('active');
-            
-            prevBtn.disabled = (currentPage === 0);
-            nextBtn.disabled = (currentPage === pages.length - 1);
-            
-            indicator.innerText = `${currentPage + 1} / ${pages.length}`;
-            
-            // Sahifa o'zgarganda tepaga qaytarish (kichik ekranlar uchun)
-            window.scrollTo(0, 0);
+                button.style.display = 'none'; // Tugmani butunlay yashirish
+                poemContainer.style.display = 'block'; // Sher konteynerini ko'rsatish
+            }, 600); // Animatsiya tugagandan so'ng
         }
     </script>
+
 </body>
 </html>
+
